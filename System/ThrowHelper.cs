@@ -5,10 +5,52 @@ namespace System
 {
     internal static class ThrowHelper
     {
+        public static Exception GetSegmentCtorValidationFailedException<T>(T[] array, int offset, int count)
+        {
+            if (array == null)
+                return new ArgumentNullException(nameof(array));
+
+            if (offset < 0)
+                return new ArgumentOutOfRangeException(nameof(offset), "Non-negative number required.");
+
+            if (count < 0)
+                return new ArgumentOutOfRangeException(nameof(count), "Non-negative number required.");
+
+            return new ArgumentException("Offset and length were out of bounds for the array or count is greater than the number of elements from index to the end of the source collection.");
+        }
+
         public static Exception GetSegmentCtorValidationFailedException<T>(IReadOnlyList<T> list, int offset, int count)
         {
             if (list == null)
                 return new ArgumentNullException(nameof(list));
+
+            if (offset < 0)
+                return new ArgumentOutOfRangeException(nameof(offset), "Non-negative number required.");
+
+            if (count < 0)
+                return new ArgumentOutOfRangeException(nameof(count), "Non-negative number required.");
+
+            return new ArgumentException("Offset and length were out of bounds for the array or count is greater than the number of elements from index to the end of the source collection.");
+        }
+
+        public static Exception GetSegmentCtorValidationFailedException<T>(IList<T> list, int offset, int count)
+        {
+            if (list == null)
+                return new ArgumentNullException(nameof(list));
+
+            if (offset < 0)
+                return new ArgumentOutOfRangeException(nameof(offset), "Non-negative number required.");
+
+            if (count < 0)
+                return new ArgumentOutOfRangeException(nameof(count), "Non-negative number required.");
+
+            return new ArgumentException("Offset and length were out of bounds for the array or count is greater than the number of elements from index to the end of the source collection.");
+        }
+
+        public static Exception GetSegmentCtorValidationFailedException<T>(ISegmentSource<T> source, int offset, int count)
+        {
+            if (source == null)
+                return new ArgumentNullException(nameof(source));
 
             if (offset < 0)
                 return new ArgumentOutOfRangeException(nameof(offset), "Non-negative number required.");
