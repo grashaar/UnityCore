@@ -2,7 +2,7 @@
 
 namespace UnityEngine
 {
-    public abstract class Singleton<T> : Singleton where T : MonoBehaviour
+    public abstract class SingletonBehaviour<T> : SingletonBehaviour where T : MonoBehaviour
     {
         #region  Fields
         [CanBeNull]
@@ -24,7 +24,7 @@ namespace UnityEngine
             {
                 if (Quitting)
                 {
-                    Debug.LogWarning($"[{nameof(Singleton)}<{typeof(T)}>] Instance will not be returned because the application is quitting.");
+                    Debug.LogWarning($"[{nameof(SingletonBehaviour)}<{typeof(T)}>] Instance will not be returned because the application is quitting.");
                     // ReSharper disable once AssignNullToNotNullAttribute
                     return null;
                 }
@@ -38,14 +38,14 @@ namespace UnityEngine
                     {
                         if (count == 1)
                             return _instance = instances[0];
-                        Debug.LogWarning($"[{nameof(Singleton)}<{typeof(T)}>] There should never be more than one {nameof(Singleton)} of type {typeof(T)} in the scene, but {count} were found. The first instance found will be used, and all others will be destroyed.");
+                        Debug.LogWarning($"[{nameof(SingletonBehaviour)}<{typeof(T)}>] There should never be more than one {nameof(SingletonBehaviour)} of type {typeof(T)} in the scene, but {count} were found. The first instance found will be used, and all others will be destroyed.");
                         for (var i = 1; i < instances.Length; i++)
                             Destroy(instances[i]);
                         return _instance = instances[0];
                     }
 
-                    Debug.Log($"[{nameof(Singleton)}<{typeof(T)}>] An instance is needed in the scene and no existing instances were found, so a new instance will be created.");
-                    return _instance = new GameObject($"({nameof(Singleton)}){typeof(T)}")
+                    Debug.Log($"[{nameof(SingletonBehaviour)}<{typeof(T)}>] An instance is needed in the scene and no existing instances were found, so a new instance will be created.");
+                    return _instance = new GameObject($"({nameof(SingletonBehaviour)}){typeof(T)}")
                                .AddComponent<T>();
                 }
             }
@@ -64,7 +64,7 @@ namespace UnityEngine
         #endregion
     }
 
-    public abstract class Singleton : MonoBehaviour
+    public abstract class SingletonBehaviour : MonoBehaviour
     {
         #region  Properties
         public static bool Quitting { get; private set; }
