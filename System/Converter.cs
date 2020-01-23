@@ -1,9 +1,16 @@
-﻿using UnityEngine;
-
-namespace System
+﻿namespace System
 {
     public sealed class Converter
     {
+        private readonly Action<object> log;
+
+        public Converter() { }
+
+        public Converter(Action<object> log)
+        {
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
+        }
+
         public bool TryConvert(object obj, out bool result)
         {
             try
@@ -13,7 +20,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -29,7 +36,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -45,7 +52,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -61,7 +68,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -77,7 +84,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -93,7 +100,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -109,7 +116,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -125,7 +132,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -141,7 +148,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -157,7 +164,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -173,7 +180,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -189,7 +196,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -205,7 +212,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
@@ -221,7 +228,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = string.Empty;
                 return false;
@@ -237,7 +244,7 @@ namespace System
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                this.log?.Invoke(ex);
 
                 result = default;
                 return false;
