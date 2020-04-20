@@ -1,23 +1,57 @@
-﻿namespace System
+﻿using System.Collections.Generic;
+
+namespace System
 {
-    public class Singleton<T> where T : class, new()
+    public static class Singleton
     {
-        private static T _instance;
+        private readonly static Dictionary<Type, object> _instances
+            = new Dictionary<Type, object>();
 
-        private static readonly object Lock = new object();
-
-        public static T Instance
+        public static void Set<T>(T instance) where T : class
         {
-            get
-            {
-                lock (Lock)
-                {
-                    if (_instance == null)
-                        _instance = new T();
+            if (instance == null)
+                throw new ArgumentNullException(nameof(instance));
 
-                    return _instance;
-                }
+            var type = typeof(T);
+
+            if (!_instances.ContainsKey(type))
+            {
+                _instances.Add(type, instance);
             }
+        }
+
+        public static T Get<T>() where T : class
+        {
+            var type = typeof(T);
+
+            if (!_instances.ContainsKey(type))
+                throw new InvalidOperationException($"No instance of type {type} has been set.");
+
+            return _instances[type] as T;
+        }
+
+        public static T Of<T>() where T : class, new()
+        {
+            var type = typeof(T);
+
+            if (!_instances.ContainsKey(type))
+            {
+                _instances.Add(type, new T());
+            }
+
+            return _instances[type] as T;
+        }
+
+        public readonly struct Instance
+        {
+            public static void Set<T>(T instance) where T : class
+                => Singleton.Set(instance);
+
+            public static T Get<T>() where T : class
+                => Singleton.Get<T>();
+
+            public static T Of<T>() where T : class, new()
+                => Singleton.Of<T>();
         }
     }
 }
