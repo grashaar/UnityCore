@@ -2,56 +2,56 @@
 
 namespace System
 {
-    public static class Singleton
+    public readonly struct Singleton
     {
-        private readonly static Dictionary<Type, object> _instances
-            = new Dictionary<Type, object>();
-
         public static void Set<T>(T instance) where T : class
-        {
-            if (instance == null)
-                throw new ArgumentNullException(nameof(instance));
-
-            var type = typeof(T);
-
-            if (!_instances.ContainsKey(type))
-            {
-                _instances.Add(type, instance);
-            }
-        }
+            => Instance.Set(instance);
 
         public static T Get<T>() where T : class
-        {
-            var type = typeof(T);
-
-            if (!_instances.ContainsKey(type))
-                throw new InvalidOperationException($"No instance of type {type} has been set.");
-
-            return _instances[type] as T;
-        }
+            => Instance.Get<T>();
 
         public static T Of<T>() where T : class, new()
-        {
-            var type = typeof(T);
+            => Instance.Of<T>();
 
-            if (!_instances.ContainsKey(type))
+        private static class Instance
+        {
+            private readonly static Dictionary<Type, object> _instances
+                   = new Dictionary<Type, object>();
+
+            public static void Set<T>(T instance) where T : class
             {
-                _instances.Add(type, new T());
+                if (instance == null)
+                    throw new ArgumentNullException(nameof(instance));
+
+                var type = typeof(T);
+
+                if (!_instances.ContainsKey(type))
+                {
+                    _instances.Add(type, instance);
+                }
             }
 
-            return _instances[type] as T;
-        }
-
-        public readonly struct Instance
-        {
-            public static void Set<T>(T instance) where T : class
-                => Singleton.Set(instance);
-
             public static T Get<T>() where T : class
-                => Singleton.Get<T>();
+            {
+                var type = typeof(T);
+
+                if (!_instances.ContainsKey(type))
+                    throw new InvalidOperationException($"No instance of type {type} has been set.");
+
+                return _instances[type] as T;
+            }
 
             public static T Of<T>() where T : class, new()
-                => Singleton.Of<T>();
+            {
+                var type = typeof(T);
+
+                if (!_instances.ContainsKey(type))
+                {
+                    _instances.Add(type, new T());
+                }
+
+                return _instances[type] as T;
+            }
         }
     }
 }
