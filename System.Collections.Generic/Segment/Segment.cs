@@ -71,9 +71,7 @@
                 return Empty;
 
             if ((uint)index > (uint)this.Count)
-            {
                 throw ThrowHelper.GetArgumentOutOfRange_IndexException();
-            }
 
             return new Segment<T>(this.source, this.Offset + index, this.Count - index);
         }
@@ -84,9 +82,7 @@
                 return Empty;
 
             if ((uint)index > (uint)this.Count || (uint)count > (uint)(this.Count - index))
-            {
                 throw ThrowHelper.GetArgumentOutOfRange_IndexException();
-            }
 
             return new Segment<T>(this.source, this.Offset + index, count);
         }
@@ -97,9 +93,7 @@
                 return Empty;
 
             if ((uint)count > (uint)this.Count)
-            {
                 throw ThrowHelper.GetArgumentOutOfRange_CountException();
-            }
 
             return new Segment<T>(this.source, this.Offset + count, this.Count - count);
         }
@@ -110,9 +104,7 @@
                 return Empty;
 
             if ((uint)count > (uint)this.Count)
-            {
                 throw ThrowHelper.GetArgumentOutOfRange_CountException();
-            }
 
             return new Segment<T>(this.source, this.Offset, count);
         }

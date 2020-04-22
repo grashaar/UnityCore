@@ -17,6 +17,7 @@
         public Segment1(T item)
         {
             this.item = item;
+            this.Count = 1;
         }
 
         private readonly T item;
@@ -25,15 +26,14 @@
         {
             get
             {
-                if (index != 0)
+                if (index < 0 || index >= this.Count)
                     throw new IndexOutOfRangeException(nameof(index));
 
                 return this.item;
             }
         }
 
-        public int Count
-            => 1;
+        public int Count { get; }
 
         public override int GetHashCode()
         {
@@ -60,93 +60,68 @@
             return this.item.Equals(other.item);
         }
 
-        /// <summary>
-        /// Take a slice of 1 item
-        /// </summary>
-        /// <param name="index">Must be 0</param>
-        /// <returns></returns>
         public Segment1<T> Slice(int index)
         {
-            if (index != 0)
-            {
-                throw ThrowHelper.GetArgumentOutOfRange_IndexException();
-            }
+            if (index < 0 || index >= this.Count)
+                throw new IndexOutOfRangeException(nameof(index));
+
+            if (this.Count == 0)
+                return new Segment1<T>();
 
             return new Segment1<T>(this.item);
         }
 
-        /// <summary>
-        /// Take a slice of 1 item
-        /// </summary>
-        /// <param name="index">Must be 0</param>
-        /// <param name="count">Must be 1</param>
-        /// <returns></returns>
         public Segment1<T> Slice(int index, int count)
         {
-            if (index != 0 || count != 1)
-            {
+            if ((uint)index > (uint)this.Count || (uint)count > (uint)(this.Count - index))
                 throw ThrowHelper.GetArgumentOutOfRange_IndexException();
-            }
+
+            if (this.Count == 0)
+                return new Segment1<T>();
 
             return new Segment1<T>(this.item);
         }
 
-        /// <summary>
-        /// Skip 0 item
-        /// </summary>
-        /// <param name="count">Must be 0</param>
-        /// <returns></returns>
         public Segment1<T> Skip(int count)
         {
-            if (count != 0)
-            {
+            if ((uint)count > (uint)this.Count)
                 throw ThrowHelper.GetArgumentOutOfRange_CountException();
-            }
+
+            if (count == this.Count)
+                return new Segment1<T>();
 
             return new Segment1<T>(this.item);
         }
 
-        /// <summary>
-        /// Take 1 item
-        /// </summary>
-        /// <param name="count">Must be 1</param>
-        /// <returns></returns>
-        public Segment1<T> Take(int count)
-        {
-            if (count != 1)
-            {
-                throw ThrowHelper.GetArgumentOutOfRange_CountException();
-            }
-
-            return new Segment1<T>(this.item);
-        }
-
-        /// <summary>
-        /// Take 1 item from the last position
-        /// </summary>
-        /// <param name="count">Must be 1</param>
-        /// <returns></returns>
-        public Segment1<T> TakeLast(int count)
-        {
-            if (count != 1)
-            {
-                throw ThrowHelper.GetArgumentOutOfRange_CountException();
-            }
-
-            return new Segment1<T>(this.item);
-        }
-
-        /// <summary>
-        /// Skip 0 item from the last position
-        /// </summary>
-        /// <param name="count">Must be 0</param>
-        /// <returns></returns>
         public Segment1<T> SkipLast(int count)
         {
-            if (count != 0)
-            {
+            if ((uint)count > (uint)this.Count)
                 throw ThrowHelper.GetArgumentOutOfRange_CountException();
-            }
+
+            if (count == this.Count)
+                return new Segment1<T>();
+
+            return new Segment1<T>(this.item);
+        }
+
+        public Segment1<T> Take(int count)
+        {
+            if ((uint)count > (uint)this.Count)
+                throw ThrowHelper.GetArgumentOutOfRange_CountException();
+
+            if (count == 0)
+                return new Segment1<T>();
+
+            return new Segment1<T>(this.item);
+        }
+
+        public Segment1<T> TakeLast(int count)
+        {
+            if ((uint)count > (uint)this.Count)
+                throw ThrowHelper.GetArgumentOutOfRange_CountException();
+
+            if (count == 0)
+                return new Segment1<T>();
 
             return new Segment1<T>(this.item);
         }
@@ -180,17 +155,20 @@
 
         public struct Enumerator : IEnumerator<T>
         {
-            private readonly T item;
+            private readonly Segment1<T> array;
             private int current;
 
             public Enumerator(in Segment1<T> array)
             {
-                this.item = array.item;
+                this.array = array;
                 this.current = -1;
             }
 
             public bool MoveNext()
             {
+                if (this.array.Count <= 0)
+                    return false;
+
                 if (this.current < 0)
                 {
                     this.current = 0;
@@ -210,7 +188,7 @@
                     if (this.current > 0)
                         throw ThrowHelper.GetInvalidOperationException_InvalidOperation_EnumEnded();
 
-                    return this.item;
+                    return this.array.item;
                 }
             }
 
