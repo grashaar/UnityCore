@@ -44,17 +44,16 @@
             hashCode = hashCode * -1521134295 + this.X;
             hashCode = hashCode * -1521134295 + this.Y;
             hashCode = hashCode * -1521134295 + this.Z;
+            hashCode = hashCode * -1521134295 + this.W;
             return hashCode;
         }
 
         public override bool Equals(object obj)
-        {
-            if (obj is Index4 other)
-                return this.X == other.X && this.Y == other.Y &&
-                       this.Z == other.Z && this.W == other.W;
-
-            return false;
-        }
+            => obj is Index4 other &&
+               this.X == other.X &&
+               this.Y == other.Y &&
+               this.Z == other.Z &&
+               this.W == other.W;
 
         public int CompareTo(Index4 other)
         {

@@ -105,7 +105,7 @@ namespace UnityEngine
         }
 
         public override bool Equals(object obj)
-            => obj is LEBColor other ? Equals(other) : false;
+            => obj is LEBColor other && Equals(other);
 
         public bool Equals(LEBColor other)
             => Mathf.Approximately(this.L, other.L) &&

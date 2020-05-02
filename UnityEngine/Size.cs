@@ -26,13 +26,9 @@ namespace UnityEngine
         }
 
         public override bool Equals(object obj)
-        {
-            if (obj is Size other)
-                return Mathf.Approximately(this.Width, other.Width) &&
-                       Mathf.Approximately(this.Height, other.Height);
-
-            return false;
-        }
+            => obj is Size other &&
+               Mathf.Approximately(this.Width, other.Width) &&
+               Mathf.Approximately(this.Height, other.Height);
 
         public int CompareTo(Size other)
         {

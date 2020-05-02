@@ -35,12 +35,9 @@
         }
 
         public override bool Equals(object obj)
-        {
-            if (obj is Index2 other)
-                return this.X == other.X && this.Y == other.Y;
-
-            return false;
-        }
+            => obj is Index2 other &&
+               this.X == other.X &&
+               this.Y == other.Y;
 
         public int CompareTo(Index2 other)
         {

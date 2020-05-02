@@ -47,7 +47,7 @@
         }
 
         public override bool Equals(object obj)
-            => obj is Segment1<T> other ? Equals(other) : false;
+            => obj is Segment1<T> other && Equals(other);
 
         public bool Equals(Segment1<T> other)
         {

@@ -44,12 +44,10 @@
         }
 
         public override bool Equals(object obj)
-        {
-            if (obj is Index3 other)
-                return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
-
-            return false;
-        }
+            => obj is Index3 other &&
+               this.X == other.X &&
+               this.Y == other.Y &&
+               this.Z == other.Z;
 
         public int CompareTo(Index3 other)
         {

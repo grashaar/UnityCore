@@ -26,12 +26,9 @@ namespace UnityEngine
         }
 
         public override bool Equals(object obj)
-        {
-            if (obj is SizeInt other)
-                return this.Width == other.Width && this.Height == other.Height;
-
-            return false;
-        }
+            => obj is SizeInt other &&
+               this.Width == other.Width &&
+               this.Height == other.Height;
 
         public int CompareTo(SizeInt other)
         {

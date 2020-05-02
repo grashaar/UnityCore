@@ -33,16 +33,6 @@ namespace UnityEngine
             this.Bottom = bottom;
         }
 
-        public override int GetHashCode()
-        {
-            var hashCode = 551583723;
-            hashCode = hashCode * -1521134295 + this.Left.GetHashCode();
-            hashCode = hashCode * -1521134295 + this.Right.GetHashCode();
-            hashCode = hashCode * -1521134295 + this.Top.GetHashCode();
-            hashCode = hashCode * -1521134295 + this.Bottom.GetHashCode();
-            return hashCode;
-        }
-
         public void Deconstruct(out int left, out int right, out int top, out int bottom)
         {
             left = this.Left;
